@@ -11,9 +11,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 from config import *
 
-
-
-
 if torch.cuda.is_available():
     device = "cuda"
 elif torch.backends.mps.is_available():
@@ -251,6 +248,9 @@ if __name__ == "__main__":
     steps = 32
     optimiser = torch.optim.AdamW(model.parameters(), lr=3e-4)
     step_losses =[] # for tracking
+    CKPT_DIR = "checkpoints"
+    os.makedirs(CKPT_DIR, exist_ok=True)
+    best_val_loss = float("inf")
     for step in range(N_STEPS):
         model.train()
         
@@ -273,6 +273,19 @@ if __name__ == "__main__":
             val_loss = estimate_val_loss(model)
             print("step %d | train loss/token %.4f | val loss/token %.4f"
                   % (step, loss.item() / (BATCH_SIZE * SEQ_LEN), val_loss))
+
+            # checkpointing: last.pt every eval, best.pt whenever val improves
+            ckpt = {
+                "model": model.state_dict(),
+                "optimiser": optimiser.state_dict(),
+                "step": step,
+                "val_loss": val_loss,
+            }
+            torch.save(ckpt, os.path.join(CKPT_DIR, "last.pt"))
+            if val_loss < best_val_loss:
+                best_val_loss = val_loss
+                torch.save(ckpt, os.path.join(CKPT_DIR, "best.pt"))
+                print("  saved best.pt (val %.4f)" % val_loss)
 
         if step % SAMPLE_EVERY == 0:
             model.eval()
