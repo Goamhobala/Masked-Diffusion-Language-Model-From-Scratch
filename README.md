@@ -9,8 +9,11 @@ LH,oHoogIvjoaJOpJVM?oEh XNhyBR\nv, $Nnu\n;&dfbtw&P.dTMA\n'h&dt!pO?hSpHFtTF'3$bQ$
 to this:
 
 . and brothes,
+
 Mine too laws envoian which affieal music, igainst
+
 Thou will confuse your that is surong,
+
 And furom duke this sat
 
 which although contains many spelling mistake and is ultimately still non-sense, the improvement is evident. Furthermore, the mistakes are expected of a similarly sized AR model, such as Andrej Karpathy's nanoGPT. 
